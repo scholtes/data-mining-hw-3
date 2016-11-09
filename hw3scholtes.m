@@ -12,16 +12,18 @@ clear all;
 close all;
 % Seed the random number generator for convenience
 % Can be removed if desired 
-rng(2016);
+rng(2012);
 
 % Load the data 
 raw_data = xlsread('StudentData2.xlsx');
 % Ignore the ID column 
-data = raw_data(:, 2:5);
-data = data(~any(isnan(data),2), :);
+data = raw_data(1:50, 2:5);
 
 % Part 1
 % Perform k-means for k = 3, 4, 5, 6, 7, and 8
+
+% These figure coefficients are for silhouette plots
+figure;
 
 k_values = 3:8;
 sse = [];
@@ -50,7 +52,13 @@ for k = k_values
     % Sum of squared errors (one for each k)
     sse(end+1) = best_sse;
     % Silhouettes
-    silhouettes(end+1) = mean(silhouette(data, idx, 'Euclidean'));
+    silhouettes(end+1) = median(silhouette(data, idx, 'Euclidean'));
+    % Plot the silhouettes
+    subplot(2,3,k-2);
+    silhouette(data, idx, 'Euclidean');
+    title(sprintf('Silhouette values (k=%d)', k));
+    ylabel('cluster ID');
+    xlabel('Silhouette Coefficient');
     % Save clusterings for later use
     clusterings(end+1) = {struct('idx',idx,'C',C,'sumd',sumd,'D',D)};
 end
@@ -62,7 +70,7 @@ title('SSE versus k (number of clusters)');
 xlabel('k-value (number of clusters)');
 ylabel('Sum of Squared Errors (square distance)');
 
-% 1.b) Plot Silhouette versus k
+% Plot *total* Silhouette versus k
 figure;
 plot(k_values, silhouettes, 'k*');
 title('Silhouette versus k (number of clusters)');
@@ -71,11 +79,19 @@ ylabel('Silhouette (distance)');
 
 % "Best" clustering choice  
 % We will use silhouette/sse as a metric we wish to maximize
-best_metric = silhouettes./sse;
-[~, best_idx] = max(best_metric);
+% best_metric = silhouettes./sse;
+% [~, best_idx] = max(best_metric);
+% It appears that k=6 is the best for this set
+best_idx = 4;
 %%% 1.c) Best k-value %%%
 best_k = k_values(best_idx);
 %%% 1.d) Best clustering %%%
 % Note: best_clustering.C is the centroids of the "best" clustering
 best_clustering = clusterings{best_idx};
+
+% 1.e) Perform with random data
+rand_data = 100*rand(50,4);
+[rand_idx, rand_C, rand_sumd, rand_D] = kmeans(rand_data, best_k);
+rand_sse = sum(rand_sumd);
+rand_cluster_counts = histc(rand_idx, unique(rand_idx));
 
