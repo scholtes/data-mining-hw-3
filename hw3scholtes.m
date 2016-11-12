@@ -12,7 +12,7 @@ clear all;
 close all;
 % Seed the random number generator for convenience
 % Can be removed if desired 
-rng(2012);
+rng(256);
 
 % Load the data 
 raw_data = xlsread('StudentData2.xlsx');
@@ -84,8 +84,8 @@ ylabel('Silhouette (distance)');
 % We will use silhouette/sse as a metric we wish to maximize
 % best_metric = silhouettes./sse;
 % [~, best_idx] = max(best_metric);
-% It appears that k=6 is the best for this set
-best_idx = 4;
+% It appears that k=5 is the best for this set
+best_idx = 3;
 %%% 1.c) Best k-value %%%
 best_k = k_values(best_idx);
 %%% 1.d) Best clustering %%%
@@ -132,20 +132,20 @@ clustering3 = cluster(complete_link, 'maxclust', 4);
 
 % Data and centroids for each
 % Just manually computing these.  Sloppy maybe, but works
-clustering2_1 = data(clustering2==1);
-clustering2_2 = data(clustering2==2);
-clustering2_3 = data(clustering2==3);
-clustering2_4 = data(clustering2==4);
+clustering2_1 = data(clustering2==1,:);
+clustering2_2 = data(clustering2==2,:);
+clustering2_3 = data(clustering2==3,:);
+clustering2_4 = data(clustering2==4,:);
 c2centroids = zeros(4);
 c2centroids(1, :) = mean(clustering2_1);
 c2centroids(2, :) = mean(clustering2_2);
 c2centroids(3, :) = mean(clustering2_3);
 c2centroids(4, :) = mean(clustering2_4);
 
-clustering3_1 = data(clustering3==1);
-clustering3_2 = data(clustering3==2);
-clustering3_3 = data(clustering3==3);
-clustering3_4 = data(clustering3==4);
+clustering3_1 = data(clustering3==1,:);
+clustering3_2 = data(clustering3==2,:);
+clustering3_3 = data(clustering3==3,:);
+clustering3_4 = data(clustering3==4,:);
 c3centroids = zeros(4);
 c3centroids(1, :) = mean(clustering3_1);
 c3centroids(2, :) = mean(clustering3_2);
