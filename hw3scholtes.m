@@ -86,9 +86,10 @@ ylabel('Silhouette (distance)');
 % [~, best_idx] = max(best_metric);
 % It appears that k=5 is the best for this set
 best_idx = 3;
-%%% 1.c) Best k-value %%%
+
+% 1.c) Best k-value %
 best_k = k_values(best_idx);
-%%% 1.d) Best clustering %%%
+% 1.d) Best clustering %
 % Note: best_clustering.C is the centroids of the "best" clustering
 best_clustering = clusterings{best_idx};
 
