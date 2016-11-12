@@ -98,6 +98,8 @@ rand_data = 100*rand(50,4);
 rand_sse = sum(rand_sumd);
 rand_cluster_counts = histc(rand_idx, unique(rand_idx));
 
+% Naming this variable explicitly will be useful for part 3
+clustering1 = best_clustering.idx;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Part 2
@@ -121,12 +123,32 @@ title('Dendrogram for complete-link clustering of student data set');
 xlabel('Node (relative cluster or datum)');
 ylabel('Relative distance between paired clusters');
 
+% 2.b) 4 clusters only (for each case)
 
+% Cluster the data for each linkage, but with a cutoff of 4 clusters
+clustering2 = cluster(single_link, 'maxclust', 4);
+clustering3 = cluster(complete_link, 'maxclust', 4);
 
+% Data and centroids for each
+clustering2_1 = data(clustering2==1);
+clustering2_2 = data(clustering2==2);
+clustering2_3 = data(clustering2==3);
+clustering2_4 = data(clustering2==4);
+c2centroids = zeros(4);
+c2(1, :) = mean(clustering2_1);
+c2(2, :) = mean(clustering2_2);
+c2(3, :) = mean(clustering2_3);
+c2(4, :) = mean(clustering2_4);
 
-
-
-
+clustering3_1 = data(clustering3==1);
+clustering3_2 = data(clustering3==2);
+clustering3_3 = data(clustering3==3);
+clustering3_4 = data(clustering3==4);
+c3centroids = zeros(4);
+c3(1, :) = mean(clustering3_1);
+c3(2, :) = mean(clustering3_2);
+c3(3, :) = mean(clustering3_3);
+c3(4, :) = mean(clustering3_4);
 
 
 
