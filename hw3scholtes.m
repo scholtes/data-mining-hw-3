@@ -19,7 +19,10 @@ raw_data = xlsread('StudentData2.xlsx');
 % Ignore the ID column 
 data = raw_data(1:50, 2:5);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Part 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Perform k-means for k = 3, 4, 5, 6, 7, and 8
 
 % These figure coefficients are for silhouette plots
@@ -94,4 +97,48 @@ rand_data = 100*rand(50,4);
 [rand_idx, rand_C, rand_sumd, rand_D] = kmeans(rand_data, best_k);
 rand_sse = sum(rand_sumd);
 rand_cluster_counts = histc(rand_idx, unique(rand_idx));
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Hierarchical clustering, with single-linkage and complete-linkage
+
+pairdists = pdist(data);
+single_link = linkage(pairdists, 'single');
+complete_link = linkage(pairdists, 'complete');
+
+% 2.a) Report dendrograms  
+figure; 
+dendrogram(single_link);
+title('Dendrogram for single-link clustering of student data set');
+xlabel('Node (relative cluster or datum)');
+ylabel('Relative distance between paired clusters');
+figure;
+dendrogram(complete_link);
+title('Dendrogram for complete-link clustering of student data set');
+xlabel('Node (relative cluster or datum)');
+ylabel('Relative distance between paired clusters');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
