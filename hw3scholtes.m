@@ -124,38 +124,47 @@ xlabel('Node (relative cluster or datum)');
 ylabel('Relative distance between paired clusters');
 
 % 2.b) 4 clusters only (for each case)
+% 2.c) Also part 2.c
 
 % Cluster the data for each linkage, but with a cutoff of 4 clusters
 clustering2 = cluster(single_link, 'maxclust', 4);
 clustering3 = cluster(complete_link, 'maxclust', 4);
 
 % Data and centroids for each
+% Just manually computing these.  Sloppy maybe, but works
 clustering2_1 = data(clustering2==1);
 clustering2_2 = data(clustering2==2);
 clustering2_3 = data(clustering2==3);
 clustering2_4 = data(clustering2==4);
 c2centroids = zeros(4);
-c2(1, :) = mean(clustering2_1);
-c2(2, :) = mean(clustering2_2);
-c2(3, :) = mean(clustering2_3);
-c2(4, :) = mean(clustering2_4);
+c2centroids(1, :) = mean(clustering2_1);
+c2centroids(2, :) = mean(clustering2_2);
+c2centroids(3, :) = mean(clustering2_3);
+c2centroids(4, :) = mean(clustering2_4);
 
 clustering3_1 = data(clustering3==1);
 clustering3_2 = data(clustering3==2);
 clustering3_3 = data(clustering3==3);
 clustering3_4 = data(clustering3==4);
 c3centroids = zeros(4);
-c3(1, :) = mean(clustering3_1);
-c3(2, :) = mean(clustering3_2);
-c3(3, :) = mean(clustering3_3);
-c3(4, :) = mean(clustering3_4);
+c3centroids(1, :) = mean(clustering3_1);
+c3centroids(2, :) = mean(clustering3_2);
+c3centroids(3, :) = mean(clustering3_3);
+c3centroids(4, :) = mean(clustering3_4);
 
+% 2.d) Rand index for single and complete link
+[r23, a23, b23, c23, d23] = randidx(clustering2, clustering3);
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Part 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% 3) Rand index for k-means and single-link
+[r12, a12, b12, c12, d12] = randidx(clustering1, clustering2);
 
-
-
-
+% bonus) Randidx for k-means and complete link
+% Doing this part just for a more complete analysis
+[r13, a13, b13, c13, d13] = randidx(clustering1, clustering3);
 
 
 
